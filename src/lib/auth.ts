@@ -1,14 +1,17 @@
 import 'server-only';
+import { createHash } from 'node:crypto';
 import { cookies } from 'next/headers';
 import { SignJWT, jwtVerify } from 'jose';
 import { redirect } from 'next/navigation';
 
 const cookieName = 'mini_ecom_admin';
 
+// SESSION_SECRET is optional. Without it, the key is derived from the server-only
+// DATABASE_URL so sessions stay signed with a value that is never exposed to clients.
 function key() {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret || secret.length < 32) throw new Error('SESSION_SECRET must be at least 32 characters');
-  return new TextEncoder().encode(secret);
+  const secret = process.env.SESSION_SECRET || process.env.DATABASE_URL;
+  if (!secret) throw new Error('ต้องตั้ง SESSION_SECRET หรือ DATABASE_URL อย่างใดอย่างหนึ่ง');
+  return createHash('sha256').update(`mini-ecom-session:${secret}`).digest();
 }
 
 export async function signIn(adminId: string) {
