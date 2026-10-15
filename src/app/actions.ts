@@ -20,12 +20,12 @@ function positiveInt(value: string, name: string) {
 }
 
 export async function setup(form: FormData) {
-  const expected = process.env.SETUP_SECRET;
-  const given = text(form, 'setupSecret', 200);
-  if (!expected || expected.length < 16) throw new Error('ต้องตั้ง SETUP_SECRET อย่างน้อย 16 ตัวอักษร');
-  const a = Buffer.from(given);
-  const b = Buffer.from(expected);
-  if (a.length !== b.length || !timingSafeEqual(a, b)) throw new Error('รหัสติดตั้งไม่ถูกต้อง');
+  const expected = process.env.SETUP_SECRET?.trim();
+  if (expected) {
+    const a = Buffer.from(text(form, 'setupSecret', 200));
+    const b = Buffer.from(expected);
+    if (a.length !== b.length || !timingSafeEqual(a, b)) throw new Error('รหัสติดตั้งไม่ถูกต้อง');
+  }
   const email = text(form, 'email').toLowerCase();
   const password = text(form, 'password', 200);
   const name = text(form, 'name');

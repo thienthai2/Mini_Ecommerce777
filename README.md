@@ -18,7 +18,7 @@
 | `BLOB_PRODUCTS_STORE_ID` | Store ID ของ public Blob store สำหรับรูปสินค้า |
 | `BLOB_SLIPS_STORE_ID` | Store ID ของ private Blob store สำหรับสลิป |
 | `SESSION_SECRET` | Signing key สำหรับ Admin session |
-| `SETUP_SECRET` | รหัสติดตั้งร้านครั้งแรกที่คุณกำหนดเอง (อย่างน้อย 16 ตัวอักษร) |
+| `SETUP_SECRET` | (ไม่บังคับ) รหัสติดตั้งร้านครั้งแรก ถ้าตั้งไว้ หน้า `/setup` จะขอรหัสนี้ก่อนสร้าง Admin |
 
 หากเปิด Preview deployment ให้เชื่อม PostgreSQL และ Blob stores **แยกจาก Production** ใน Environment Variables ของ Preview เพราะ build ของ Preview จะรัน migration ด้วย ควรเลือก database region ใกล้กับ Vercel Functions เพื่อลด latency
 
